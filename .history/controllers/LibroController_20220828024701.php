@@ -32,13 +32,13 @@ class LibroController extends Controller
             [
                 'access'=>[
                     'class'=>AccessControl::className(),
-                    'only'=>['index','view','create','update','delete'],
                     'rules'=>[
                         [
-                            'allow'=>true,                            
+                            'allow'=>true,
+                            // 'only'=>['index','view','create','update','delete'],
                             'roles'=>['@']
-                        ],
-                    ],
+                        ]
+                    ]
                 ]
                 ,
                 'verbs' => [

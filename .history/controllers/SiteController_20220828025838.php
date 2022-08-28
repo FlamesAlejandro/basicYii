@@ -62,7 +62,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         // return $this->render('index');
-        
+        $url="http://localhost/basic/web/index.php?r=site%2Findex";
         return $this->redirect(['/libro/lista']);
 
     }

@@ -24,7 +24,6 @@ class LibroController extends Controller
      */
 
      //Aqui podemos manejar todo el acceso al controlador, podemos meter seguridad tipo sesion
-     // con Only podemos manejar que funciones son privadas, las no incluidas quedaran publicas
     public function behaviors()
     {
         return array_merge(
@@ -32,13 +31,12 @@ class LibroController extends Controller
             [
                 'access'=>[
                     'class'=>AccessControl::className(),
-                    'only'=>['index','view','create','update','delete'],
                     'rules'=>[
                         [
-                            'allow'=>true,                            
+                            'allow'=>true,
                             'roles'=>['@']
-                        ],
-                    ],
+                        ]
+                    ]
                 ]
                 ,
                 'verbs' => [
@@ -159,8 +157,7 @@ class LibroController extends Controller
         // ordenamos por el titulo, y los limitamos por la paginacion y el limite de elementos
         $libros= $model->orderBy('titulo')->offset($pagination->offset)->limit($pagination->limit)->all();
 
-        // pasamos los libros y la paginacion hacia la vista
-        return $this->render('lista', ['libros'=>$libros, 'pagination'=>$pagination]);
+        return $this->render('lista');
 
     }
 

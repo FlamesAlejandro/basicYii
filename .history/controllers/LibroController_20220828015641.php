@@ -12,8 +12,6 @@ use yii\filters\AccessControl;
 // nos permite subir archivos, como las img
 use yii\web\UploadedFile;
 
-// para mostrar los libros, los enviaremos paginados
-use yii\data\Pagination;
 /**
  * LibroController implements the CRUD actions for Libro model.
  */
@@ -24,7 +22,6 @@ class LibroController extends Controller
      */
 
      //Aqui podemos manejar todo el acceso al controlador, podemos meter seguridad tipo sesion
-     // con Only podemos manejar que funciones son privadas, las no incluidas quedaran publicas
     public function behaviors()
     {
         return array_merge(
@@ -32,13 +29,12 @@ class LibroController extends Controller
             [
                 'access'=>[
                     'class'=>AccessControl::className(),
-                    'only'=>['index','view','create','update','delete'],
                     'rules'=>[
                         [
-                            'allow'=>true,                            
+                            'allow'=>true,
                             'roles'=>['@']
-                        ],
-                    ],
+                        ]
+                    ]
                 ]
                 ,
                 'verbs' => [
@@ -145,23 +141,10 @@ class LibroController extends Controller
         return $this->redirect(['index']);
     }
 
-    // para mostrar los libros en una pag publica
     public function actionLista(){
-
         $model = Libro::find();
 
-        // 4 elementos por pag, y el total count es el total de registros a paginar, en este caso los del modelo
-        $pagination= new Pagination([
-            'defaultPageSize'=>4,
-            'totalCount'=> $model->count()
-        ]);
-
-        // ordenamos por el titulo, y los limitamos por la paginacion y el limite de elementos
-        $libros= $model->orderBy('titulo')->offset($pagination->offset)->limit($pagination->limit)->all();
-
-        // pasamos los libros y la paginacion hacia la vista
-        return $this->render('lista', ['libros'=>$libros, 'pagination'=>$pagination]);
-
+        return $this->render('lista');
     }
 
     /**
