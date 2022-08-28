@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'titulo',
             [
                 'format'=>'html',
-                'value'=>function($data){ return Html::img($data->img, ['width'=>'100px']); }, 
+                'value'=>function($data){ return Html::img($data->img, ['width'=>'60px']); }, 
             ]
             ,
             [

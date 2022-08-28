@@ -44,7 +44,6 @@ class LibroSearch extends Libro
 
         // add conditions that should always apply here
 
-        // añadiremos la paginacion aqui
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

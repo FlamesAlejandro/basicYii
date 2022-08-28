@@ -98,8 +98,9 @@ class LibroController extends Controller
     {
         $model = $this->findModel($id);
 
-        // simplemente buscamos el modelo correcto, y subimos la imagen de nuevo, y hacemos el update
-        $this->subirFoto($model);
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
         return $this->render('update', [
             'model' => $model,
@@ -115,15 +116,7 @@ class LibroController extends Controller
      */
     public function actionDelete($id)
     {
-        //asignamos el contenido a un modelo
-        $model=$this->findModel($id);
-        //vemos si contiene una imagen, file_exists es una instruccion para ver si existe ese archivo
-        if(file_exists($model->img)){
-            //eliminamos la img
-            unlink($model->img);
-        }       
-        // borrar de la bd
-        $model->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -151,42 +144,19 @@ class LibroController extends Controller
         if($this->request->isPost && $model->load($this->request->post()) ){
 
             // obtener la instancia del archivo subido
-            $model->archivo=UploadedFile::getInstance($model,'archivo');
+            $model->archivo= UploadedFile::getInstance($model, 'archivo');
 
-            // Si el modelo valida los campos y es correcta
-            if($model->validate()){
+            // Esto esta netamente para que no se repita el nombre, se le agrega la fechan en el nombre, y dps la extension
+            $rutaArchivo='uploads/' . time().'_'.$model->archivo->baseName.'.'.$model->archivo->extension;
 
-                //validamos que el archivo subido este correcto
-                if($model->archivo){
-
-                    //vemos si contiene una imagen, file_exists es una instruccion para ver si existe ese archivo
-                    if(file_exists($model->img)){
-                        //eliminamos la img en caso de q exista
-                        unlink($model->img);
-                    }  
-
-                    // Esto esta netamente para que no se repita el nombre, se le agrega la fechan en el nombre, y dps la extension
-                    $rutaArchivo='uploads/'.time().'_'.$model->archivo->baseName.'.'.$model->archivo->extension;
-
-                    // Si esta informacion ya se logro guardar
-                    if($model->archivo->saveAs($rutaArchivo)){
-
-                        //reemplazamos el dato img por rutaarchivo
-                        $model->img=$rutaArchivo;
-                    }
-                }
-            }   
-
-            //Si guarda
-            if($model->save(false)){
-                return $this->redirect(['index']);
-            }   
-            // old return $this->redirect(['view', 'id' => $model->id]);  
-        }
-        else{
+            $model->archivo->saveAs($rutaArchivo);
+            //guardamos
+            $model->save(false);
             
-                $model->loadDefaultValues();
-                
+
+            
+
+            return $this->redirect(['view', 'id' => $model->id]);
         }
     }
 }

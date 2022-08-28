@@ -98,8 +98,9 @@ class LibroController extends Controller
     {
         $model = $this->findModel($id);
 
-        // simplemente buscamos el modelo correcto, y subimos la imagen de nuevo, y hacemos el update
-        $this->subirFoto($model);
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
         return $this->render('update', [
             'model' => $model,
@@ -161,7 +162,7 @@ class LibroController extends Controller
 
                     //vemos si contiene una imagen, file_exists es una instruccion para ver si existe ese archivo
                     if(file_exists($model->img)){
-                        //eliminamos la img en caso de q exista
+                        //eliminamos la img
                         unlink($model->img);
                     }  
 

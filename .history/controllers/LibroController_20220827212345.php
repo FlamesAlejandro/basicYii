@@ -98,7 +98,6 @@ class LibroController extends Controller
     {
         $model = $this->findModel($id);
 
-        // simplemente buscamos el modelo correcto, y subimos la imagen de nuevo, y hacemos el update
         $this->subirFoto($model);
 
         return $this->render('update', [

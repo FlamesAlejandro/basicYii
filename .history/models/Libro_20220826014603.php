@@ -15,7 +15,6 @@ class Libro extends \yii\db\ActiveRecord
 {
     // para subir el archivo
     public $archivo;
-
     /**
      * {@inheritdoc}
      */
@@ -32,7 +31,7 @@ class Libro extends \yii\db\ActiveRecord
         return [
             [['titulo'], 'required'],
             [['titulo'], 'string', 'max' => 255],
-            [['archivo'], 'file', 'extensions'=>'jpg, png'],
+            [['archivo'], 'file', 'extensions'=>'jpg,png'],
 
         ];
     }
@@ -47,7 +46,7 @@ class Libro extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'titulo' => 'Titulo',
-            'archivo' => 'Img',
+            'archivo' => 'Imagen',
         ];
     }
 }

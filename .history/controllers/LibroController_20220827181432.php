@@ -98,8 +98,9 @@ class LibroController extends Controller
     {
         $model = $this->findModel($id);
 
-        // simplemente buscamos el modelo correcto, y subimos la imagen de nuevo, y hacemos el update
-        $this->subirFoto($model);
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
         return $this->render('update', [
             'model' => $model,
@@ -115,15 +116,7 @@ class LibroController extends Controller
      */
     public function actionDelete($id)
     {
-        //asignamos el contenido a un modelo
-        $model=$this->findModel($id);
-        //vemos si contiene una imagen, file_exists es una instruccion para ver si existe ese archivo
-        if(file_exists($model->img)){
-            //eliminamos la img
-            unlink($model->img);
-        }       
-        // borrar de la bd
-        $model->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -148,7 +141,7 @@ class LibroController extends Controller
 
         //solo preguntamos si es un post
         
-        if($this->request->isPost && $model->load($this->request->post()) ){
+        if(Yii::$app->request->isPost ){
 
             // obtener la instancia del archivo subido
             $model->archivo=UploadedFile::getInstance($model,'archivo');
@@ -158,12 +151,6 @@ class LibroController extends Controller
 
                 //validamos que el archivo subido este correcto
                 if($model->archivo){
-
-                    //vemos si contiene una imagen, file_exists es una instruccion para ver si existe ese archivo
-                    if(file_exists($model->img)){
-                        //eliminamos la img en caso de q exista
-                        unlink($model->img);
-                    }  
 
                     // Esto esta netamente para que no se repita el nombre, se le agrega la fechan en el nombre, y dps la extension
                     $rutaArchivo='uploads/'.time().'_'.$model->archivo->baseName.'.'.$model->archivo->extension;
@@ -178,7 +165,7 @@ class LibroController extends Controller
             }   
 
             //Si guarda
-            if($model->save(false)){
+            if($model->save()){
                 return $this->redirect(['index']);
             }   
             // old return $this->redirect(['view', 'id' => $model->id]);  
