@@ -47,7 +47,6 @@ class LibroSearch extends Libro
         // añadiremos la paginacion aqui
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination'=>['pageSize'=>5 ]
         ]);
 
         $this->load($params);
