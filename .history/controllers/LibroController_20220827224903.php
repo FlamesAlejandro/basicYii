@@ -7,7 +7,6 @@ use app\models\LibroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 // nos permite subir archivos, como las img
 use yii\web\UploadedFile;
@@ -27,16 +26,6 @@ class LibroController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access'=>[
-                    'class'=>AccessControl::className(),
-                    'rules'=>[
-                        [
-                            'allow'=>true,
-                            'roles'=>['@']
-                        ]
-                    ]
-                ]
-                ,
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

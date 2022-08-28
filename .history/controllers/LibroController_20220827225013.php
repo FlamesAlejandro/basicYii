@@ -29,12 +29,6 @@ class LibroController extends Controller
             [
                 'access'=>[
                     'class'=>AccessControl::className(),
-                    'rules'=>[
-                        [
-                            'allow'=>true,
-                            'roles'=>['@']
-                        ]
-                    ]
                 ]
                 ,
                 'verbs' => [

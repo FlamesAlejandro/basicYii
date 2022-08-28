@@ -42,11 +42,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => '@w
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Suma', 'url' => ['/sitio/inicio']],
-            // Solo mostrar a usuarios logueados
-            (!Yii::$app->user->isGuest)?(
-                ['label' => 'Libros', 'url' => ['/libro/index']]
-            ):("")            
-            ,
+            ['label' => 'Libros', 'url' => ['/libro/index']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]

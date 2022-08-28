@@ -45,7 +45,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => '@w
             // Solo mostrar a usuarios logueados
             (!Yii::$app->user->isGuest)?(
                 ['label' => 'Libros', 'url' => ['/libro/index']]
-            ):("")            
+            ):("")
+            
             ,
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
